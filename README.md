@@ -1,15 +1,26 @@
-# TOC Project 2020
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
-
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
-
-
-Template Code for TOC Project 2020
-
-A Line bot based on a finite state machine
-
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
+# Ramen man Line Bot
+* collecting infomation from good ramen store
+## Introduction
+Bot for providing store information such as:
+* store menu
+* store address
+* store opening time
+* store comment
+## Feature
+* show fsm
+in menu state,enter "fsm" to get fsm-graph
+![](https://i.imgur.com/Teut4gp.jpg)
+* local ramen store
+in menu state,enter "region" and enter the region,the bot will generate a list of good ramen store
+![](https://i.imgur.com/MRcaibM.jpg)
+*in store state, you can either enter "menu","address","time","comment" to get certain information
+![](https://i.imgur.com/Vi9lUFU.jpg)
+* search name
+you can get store information directly by typing the name of store
+![](https://i.imgur.com/tzw2fVl.jpg)
+* random store
+you can also let bot decide which store to go to!
+![](https://i.imgur.com/7T4XJXv.jpg)
 
 ## Setup
 
@@ -157,3 +168,5 @@ sudo snap install --classic heroku
 Flask Architecture ❤️ [@Sirius207](https://github.com/Sirius207)
 
 [Line line-bot-sdk-python](https://github.com/line/line-bot-sdk-python/tree/master/examples/flask-echo)
+
+

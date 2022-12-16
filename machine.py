@@ -149,7 +149,7 @@ def create_machine():
             {"trigger": "advance", "source": ["region", "store_name", "random_store","store_info","store_menu", "store_comment",  "store_time", "store_address",
                  "taipei", "taichung", "tainan", "shinchu", "kaoshung", "taoyuan","test","name","fsm"], "dest": "menu",
                 "conditions":"is_going_back"},
-            {"trigger": "go_info", "source": ["name"], "dest": "store_info",},
+            {"trigger": "go_info", "source": ["name","random_store"], "dest": "store_info",},
 
             
         ],

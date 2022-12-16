@@ -83,8 +83,9 @@ class TocMachine(GraphMachine):
         print("in random")
         global store_id
         store_id=rand_store(event.source.user_id)
-        tmp="請輸入\"show\"來取得隨機店家資訊"
-        push_message(event.source.user_id,tmp)
+        self.go_info(event)
+        # tmp="請輸入\"show\"來取得隨機店家資訊"
+        # push_message(event.source.user_id,tmp)
     def on_enter_store_time(self,event):
         print("in time")
         send_time(event.source.user_id,store_id-1)
