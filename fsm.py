@@ -5,7 +5,7 @@ from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, TextSendMessage ,ImageSendMessage
 # coding=utf-8
 global store_id
-store_id=-1
+store_id={}
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
@@ -27,7 +27,7 @@ class TocMachine(GraphMachine):
         return "fsm" in text.lower()
     def is_going_to_region(self, event):
         global store_id
-        store_id=-1
+        store_id[event.source.user_id]=-1
         text = event.message.text
         return  "region" in text.lower()
     def is_going_to_taipei(self, event):
@@ -77,29 +77,29 @@ class TocMachine(GraphMachine):
         return "more" in text.lower()
     def on_enter_store_comment(self,event):
         print("in comment")
-        send_comment(event.source.user_id,store_id-1)
+        send_comment(event.source.user_id,store_id[event.source.user_id]-1)
         tmp="請輸入\"more\"來選擇其他店家資訊"
     def on_enter_random_store(self,event):
         print("in random")
         global store_id
-        store_id=rand_store(event.source.user_id)
+        store_id[event.source.user_id]=rand_store(event.source.user_id)
         self.go_info(event)
         # tmp="請輸入\"show\"來取得隨機店家資訊"
         # push_message(event.source.user_id,tmp)
     def on_enter_store_time(self,event):
         print("in time")
-        send_time(event.source.user_id,store_id-1)
+        send_time(event.source.user_id,store_id[event.source.user_id]-1)
         tmp="請輸入\"more\"來選擇其他店家資訊"
         push_message(event.source.user_id,tmp)
     def on_enter_store_info(self,event):
         global store_id
-        if(store_id == -1):
-            store_id=int(event.message.text)
-            if(store_id >10):
+        if(store_id[event.source.user_id] == -1):
+            store_id[event.source.user_id]=int(event.message.text)
+            if(store_id[event.source.user_id] >10):
                 push_message(event.source.user_id,"超過清單長度!")
                 self.go_back(event)
                 return
-        send_names(event.source.user_id,store_id-1)
+        send_names(event.source.user_id,store_id[event.source.user_id]-1)
     def on_enter_fsm(self,event):
         send_fsm(event.source.user_id)
         self.go_back(event)
@@ -109,7 +109,7 @@ class TocMachine(GraphMachine):
         global store_id
         x=search_name(event.message.text,event.source.user_id)
         if(x!=-1):
-            store_id=x
+            store_id[event.source.user_id]=x
             self.go_info(event)
         else:
             push_message(event.source.user_id,"無此結果，請在試一次")
@@ -119,13 +119,13 @@ class TocMachine(GraphMachine):
         push_message(event.source.user_id,"請輸入店家名稱")
             
     def on_enter_store_menu(self,event):
-        send_menu(event.source.user_id,store_id-1)
+        send_menu(event.source.user_id,store_id[event.source.user_id]-1)
         tmp="請輸入\"more\"來選擇其他店家資訊"
         push_message(event.source.user_id,tmp)
         #self.go_back(event)
     def on_enter_store_address(self,event):
         print("in address")
-        send_address(event.source.user_id,store_id-1)
+        send_address(event.source.user_id,store_id[event.source.user_id]-1)
         tmp="請輸入\"more\"來選擇其他店家資訊"
         push_message(event.source.user_id,tmp)
 
@@ -135,7 +135,7 @@ class TocMachine(GraphMachine):
     def on_enter_menu(self, event):
         print("in menu")
         global store_id
-        store_id=0
+        store_id[event.source.user_id]=0
         tmp="請輸入\"region\"來選擇地區\n輸入\"name\"直接搜尋店家名稱\n輸入\"random\"進入隨機店家模式\n輸入\"fsm\"取得fsm圖\n可於任何階段輸入\"go_back\"來返回此處"
         push_message(event.source.user_id,tmp)
     def on_enter_region(self, event):

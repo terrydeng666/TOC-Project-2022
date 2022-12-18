@@ -315,11 +315,11 @@ all_menu=taichung_menu+tainan_menu+taipei_menu+kaoshung_menu+taoyuan_menu+shinch
 all_address=taichung_address+tainan_address+taipei_address+kaoshung_address+taoyuan_address+shinchu_address
 all_time=taichung_time+tainan_time+taipei_time+kaoshung_time+taoyuan_time+shinchu_time
 all_comment=taichung_comment+tainan_comment+taipei_comment+kaoshung_comment+taoyuan_comment+shinchu_comment
-tmp_menu=list()
-tmp_address=list()
-tmp_time=list()
-tmp_comment=list()
-tmp_names=list()
+tmp_menu={}
+tmp_address={}
+tmp_time={}
+tmp_comment={}
+tmp_names={}
 global store_name
 store_name=""
 def search_name(name,id):
@@ -328,11 +328,11 @@ def search_name(name,id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=all_comment.copy()
-    tmp_time=all_time.copy()
-    tmp_address=all_address.copy()
-    tmp_names=all_name.copy()
-    tmp_menu=all_menu.copy()
+    tmp_comment[id]=all_comment.copy()
+    tmp_time[id]=all_time.copy()
+    tmp_address[id]=all_address.copy()
+    tmp_names[id]=all_name.copy()
+    tmp_menu[id]=all_menu.copy()
     for i in  range(len(all_name)):
         if(name in all_name[i]):
             return i+1
@@ -345,11 +345,11 @@ def rand_store(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=all_comment.copy()
-    tmp_time=all_time.copy()
-    tmp_address=all_address.copy()
-    tmp_names=all_name.copy()
-    tmp_menu=all_menu.copy()
+    tmp_comment[id]=all_comment.copy()
+    tmp_time[id]=all_time.copy()
+    tmp_address[id]=all_address.copy()
+    tmp_names[id]=all_name.copy()
+    tmp_menu[id]=all_menu.copy()
     return r
 def taoyuan_list(id):
     text=""
@@ -360,11 +360,11 @@ def taoyuan_list(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=taoyuan_comment.copy()
-    tmp_time=taoyuan_time.copy()
-    tmp_address=taoyuan_address.copy()
-    tmp_names=taoyuan_names.copy()
-    tmp_menu=taoyuan_menu.copy()
+    tmp_comment[id]=taoyuan_comment.copy()
+    tmp_time[id]=taoyuan_time.copy()
+    tmp_address[id]=taoyuan_address.copy()
+    tmp_names[id]=taoyuan_names.copy()
+    tmp_menu[id]=taoyuan_menu.copy()
     print(len(tmp_menu))
     push_message(id,text)
 def shinchu_list(id):
@@ -376,11 +376,11 @@ def shinchu_list(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=shinchu_comment.copy()
-    tmp_time=shinchu_time.copy()
-    tmp_address=shinchu_address.copy()
-    tmp_names=shinchu_names.copy()
-    tmp_menu=shinchu_menu.copy()
+    tmp_comment[id]=shinchu_comment.copy()
+    tmp_time[id]=shinchu_time.copy()
+    tmp_address[id]=shinchu_address.copy()
+    tmp_names[id]=shinchu_names.copy()
+    tmp_menu[id]=shinchu_menu.copy()
     print(len(tmp_menu))
     push_message(id,text)
 def kaoshung_list(id):
@@ -408,11 +408,11 @@ def tainan_list(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=tainan_comment.copy()
-    tmp_time=tainan_time.copy()
-    tmp_address=tainan_address.copy()
-    tmp_names=tainan_names.copy()
-    tmp_menu=tainan_menu.copy()
+    tmp_comment[id]=tainan_comment.copy()
+    tmp_time[id]=tainan_time.copy()
+    tmp_address[id]=tainan_address.copy()
+    tmp_names[id]=tainan_names.copy()
+    tmp_menu[id]=tainan_menu.copy()
     print(len(tmp_menu))
     push_message(id,text)
 def taipei_list(id):
@@ -424,11 +424,11 @@ def taipei_list(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=taipei_comment.copy()
-    tmp_time=taipei_time.copy()
-    tmp_address=taipei_address.copy()
-    tmp_names=taipei_names.copy()
-    tmp_menu=taipei_menu.copy()
+    tmp_comment[id]=taipei_comment.copy()
+    tmp_time[id]=taipei_time.copy()
+    tmp_address[id]=taipei_address.copy()
+    tmp_names[id]=taipei_names.copy()
+    tmp_menu[id]=taipei_menu.copy()
     print(len(tmp_menu))
     push_message(id,text)
 
@@ -441,22 +441,22 @@ def taichung_list(id):
     global tmp_address
     global tmp_time
     global tmp_comment
-    tmp_comment=taichung_comment.copy()
-    tmp_time=taichung_time.copy()
-    tmp_address=taichung_address.copy()
-    tmp_names=taichung_names.copy()
-    tmp_menu=taichung_menu.copy()
+    tmp_comment[id]=taichung_comment.copy()
+    tmp_time[id]=taichung_time.copy()
+    tmp_address[id]=taichung_address.copy()
+    tmp_names[id]=taichung_names.copy()
+    tmp_menu[id]=taichung_menu.copy()
     print(len(tmp_menu))
     push_message(id,text)
 
 def send_address(id,i):
-    message="店家地址:" + tmp_address[i]
+    message="店家地址:" + tmp_address[id][i]
     push_message(id,message)
 def send_time(id,i):
-    message="店家營業時間"+tmp_time[i]
+    message="店家營業時間"+tmp_time[id][i]
     push_message(id,message)
 def send_comment(id,i):
-    message="店家評價"+tmp_comment[i]
+    message="店家評價"+tmp_comment[id][i]
     push_message(id,message)
 
 
@@ -472,13 +472,13 @@ def push_message(id, message):
     return "OK"
 def send_menu(id,i):
     message = ImageSendMessage(
-        original_content_url=tmp_menu[i],
-        preview_image_url=tmp_menu[i]
+        original_content_url=tmp_menu[id][i],
+        preview_image_url=tmp_menu[id][i]
     )
     line_bot_api = LineBotApi(channel_access_token)
     line_bot_api.push_message(id, message)
 def send_names(id,i):
-    message = "現在店家:"+tmp_names[i][2:]+"\n輸入\"menu\"取得店家菜單\n輸入\"address\"取得店家地址\n輸入\"time\"取得店家營業時間\n輸入\"comment\"取得店家評論"
+    message = "現在店家:"+tmp_names[id][i][2:]+"\n輸入\"menu\"取得店家菜單\n輸入\"address\"取得店家地址\n輸入\"time\"取得店家營業時間\n輸入\"comment\"取得店家評論"
     push_message(id,message)
 def send_fsm(id):
     message = ImageSendMessage(
